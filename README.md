@@ -1,4 +1,4 @@
-# RA-Map demo setup
+# RA-MAP demo setup
 
 This repository contains the configuration and additional files that are used to power the [demonstration portal](http://rhenkin.shinyapps.io/ramap_demo) for the [shinyExprPortal](https://github.com/C4TB/shinyExprPortal) package.
 

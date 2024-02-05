@@ -1,0 +1,158 @@
+about: about.md
+bootstrap:
+  version: 3
+data:
+  measures_data: clinical_data.rds
+  sample_lookup: lookup.rds
+  expression_matrix: expression_matrix.rds
+sample_variable: Sample_ID
+subject_variable: Subject_ID
+sample_categories:
+  - name: Time
+    label: "Time points"
+    values:
+      Baseline: M00BL
+      6 months: M06
+  - name: Sample_Class
+    label: "Cell types"
+    values:
+     - PBMC
+     - WB
+  - name: Baseline_DAS_Group
+    label: "Baseline DAS Group"
+    values:
+     Low: 0-20
+     Medium Low: 20-40
+     Medium: 40-60
+     Medium High: 60-80
+     High: 80-100
+  - name: Sex
+    label: "Sex"
+    values:
+     - Female
+     - Male
+cohortOverview:
+  profile_variables:
+    DAS28:
+      values:
+        - DAS28_M00BL
+        - DAS28_M03
+        - DAS28_M06
+        - DAS28_M09
+        - DAS28_M12
+        - DAS28_M15
+        - DAS28_M18
+  color_variables:
+    - DAS28_M00BL
+    - DAS28_M03
+    - DAS28_M06
+    - DAS28_M09
+    - DAS28_M12
+    - DAS28_M15
+    - DAS28_M18
+    - Age
+    - Fatigue_M00BL
+degDetails:
+  models: models.tsv
+  category_variable: Model
+# degSummary:
+#   models: models.tsv
+#   #partition_variable: Sample_Class
+corrModules:
+  modules:
+    singleGeneCorr:
+      subset_categories:
+       - Sample_Class
+       - Time
+      advanced:
+        measures_outliers: TRUE
+        correlation_method: TRUE
+        fit_method: TRUE
+      color_variables:
+        - Sex
+        - Age
+      custom_point_colors:
+        Age: "lightgreyteal"
+      tabs:
+        - name: Disease Baseline
+          scale: independent
+          variables:
+            - PainVAS_M00BL
+            - Fatigue_M00BL
+            - DAS28_M00BL
+            - TotalSwollenJoints28_M00BL
+            - TotalSwollenJoints66_M00BL
+            - TotalTenderJoints28_M00BL
+            - TotalTenderJoints68_M00BL
+        - name: Lab Tests Baseline
+          scale: independent
+          variables:
+            - CRP_M00BL
+            - ESR_M00BL
+            - Basophils_M00BL
+            - Eosinophils_M00BL
+            - Haemoglobin_M00BL
+            - Lymphocytes_M00BL
+            - Monocytes_M00BL
+            - Neutrophils_M00BL
+            - Platelets_M00BL
+    singleMeasureCorr:
+      subset_categories:
+       - Sample_Class
+       - Time
+      link_to: singleGeneCorr
+      advanced:
+        measures_outliers: TRUE
+        correlation_method: TRUE
+    multiMeasureCorr:
+      subset_categories:
+       - Sample_Class
+       - Time
+      advanced:
+        measures_outliers: TRUE
+        correlation_method: TRUE
+      custom_heatmap_scheme: blueorange
+      heatmap_variables:
+        Disease Activity Baseline:
+          - PainVAS_M00BL
+          - Fatigue_M00BL
+          - DAS28_M00BL
+          - TotalSwollenJoints28_M00BL
+          - TotalSwollenJoints66_M00BL
+          - TotalTenderJoints28_M00BL
+          - TotalTenderJoints68_M00BL
+        Lab Tests Baseline:
+          - CRP_M00BL
+          - ESR_M00BL
+          - Basophils_M00BL
+          - Eosinophils_M00BL
+          - Haemoglobin_M00BL
+          - Lymphocytes_M00BL
+          - Monocytes_M00BL
+          - Neutrophils_M00BL
+          - Platelets_M00BL
+geneModulesHeatmap:
+    modules_table: modules_table.tsv
+    category_variable: Category
+    modules_variable: ModuleName
+    genes_variable: targetGenes
+    subset_categories:
+     - Sample_Class
+     - Time
+    annotation_variables:
+     - DAS28_M00BL
+     - DAS28_M06
+geneProjectionOverlay:
+    coordinates_file: pc_coordinates.csv
+    group_variable: group
+compareTrajGroups:
+  subset_categories:
+   - Sample_Class
+  sidebyside_category: Sex
+  trajectory_category: Time
+  compare_variables:
+   - Fatigue
+   - PainVAS
+   - DAS28
+   - SDAI
+   - DAS28-CRP
